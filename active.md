@@ -23,7 +23,7 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 
 # Active Projects
 
-Our weekly meetups are every [Thursday at 7pm ET](/io/coders/).
+Our weekly DreamStudio model.earth meetups are every [Thursday at 7pm ET](/io/coders/).
 
 Select one of the 7 project areas below and add your first name below by editing a [fork of the projects repo](https://github.com/ModelEarth/projects/blob/main/active.md), then send a PR.
 
