@@ -157,7 +157,7 @@ TO DO:  Find and embed/fork existing open source [UN Comtrade visualizations](ht
 
 TO DO: Processing Exiobase in CoLabs, displaying with javascript
 
-Contributors: Gary, Satya, Himanshu, Sahil
+Contributors: Gary, Satya, Himanshu, Sahil, Poorna
 
 [International Trade Flow SQL Data Prep](/profile/trade) - Exiobase Colab and charts
 
