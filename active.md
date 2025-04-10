@@ -33,7 +33,7 @@ Select one of the 7 project areas below and add your first name below by editing
 
 Our [Everybody's Home Page](../home) process is being designed to display infinite content based on parameters.
 
-IN PROGRESS: [Javascript Timelines from Google Data Commons API](/data-commons/docs/data/) - Priyanka<!--Mehul, Aishwrya, Vishnupriya, kirthika Subramaniam B-->
+IN PROGRESS: [Javascript Timelines from Google Data Commons API](/data-commons/docs/data/) - Everyone, Priyanka, Niranjan, Kirthika<!--Mehul, Aishwrya, Vishnupriya-->
 
 IN PROGRESS: Update our existing [address auto-lookup](../home/) to set state=NY etc. in the URL hash. (Currently visible on [localhost only](http://localhost:8887/home/).) - Jennifer(Jeni)
 
