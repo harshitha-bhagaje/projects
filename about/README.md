@@ -66,9 +66,5 @@ One of the great UX features of our design is that content is never obstructed b
 
 Gotta story to share? Create a repo and add your text in README.md files. Add copies of our localsite [index.html starter](/localsite/start/).
 
-DreamStudio open source projects are coordinated by [Loren Heyns](https://dreamstudio.com/resume) and [Democracy Lab](https://www.democracylab.org/projects/834) volunteers. 
-
----
-
-&copy; 2025 DreamStudio - Collaborative&nbsp;Data&nbsp;Science
+DreamStudio open source projects are coordinated by [Loren Heyns](https://dreamstudio.com/loren) and our [DreamStudio Team](https://dreamstudio.com/earth).
 
