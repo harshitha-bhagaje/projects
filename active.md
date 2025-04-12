@@ -35,8 +35,6 @@ Our [Everybody's Home Page](../home) process is being designed to display infini
 
 IN PROGRESS: [Javascript Timelines from Google Data Commons API](/data-commons/docs/data/) - Everyone, Priyanka, Niranjan, Kirthika<!--Mehul, Aishwrya, Vishnupriya-->
 
-IN PROGRESS: Update our existing [address auto-lookup](../home/) to set state=NY etc. in the URL hash. (Currently visible on [localhost only](http://localhost:8887/home/).) - Jennifer(Jeni)
-
 We're pulling images and video via [our FeedPlayer](../feed) which can be pointed at a Github repo or any API.
 
 <!--
