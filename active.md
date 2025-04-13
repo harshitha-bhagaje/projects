@@ -23,7 +23,7 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 
 # Active Projects
 
-Our weekly DreamStudio Earth meetups are every [Thursday at 7pm ET](/io/coders/).
+Our weekly [DreamStudio Earth](https://dreamstudio.com/io/coders/) meetups are every [Thursday at 7pm ET](/io/coders/).
 
 Select one of the 7 project areas below and add your first name below by editing a [fork of the projects repo](https://github.com/ModelEarth/projects/blob/main/active.md), then send a PR.
 
@@ -90,26 +90,26 @@ Content prep for RAG: [Innovations in Water Purification](/evaporation-kits/inno
 Using [Google Data Commons DataGemma AI](https://ai.google.dev/gemma/docs/datagemma) - For RIG, Zihan found that a paid Google plan was needed to avoid storage/memory errors/timeouts. Here's our [RIG CoLab](https://colab.research.google.com/drive/1eLtHOR6e3lAUVijUJ56VMaiTU6hA9enc?usp=sharing).
 
 
-### OpenWebUI LLM Location Data
-
-Our [Open WebUI for Locations](location/) experimental efforts aimed at [Retrieval Augmented Generation (RAG)](https://docs.openwebui.com/features/rag/) for "context window" recency.<!-- Next: Text to Action / Nividia Kuda is their advantage = code library that interacts with chip -->
-
-TO DO: Try new Ollama omit command `ENABLE_OLLAMA_API=False` with Google Cloud. Hopefully we no longer need to develop our [Customize.py script](/projects/location/setup/customize/) to remove local use of Ollama. Nor our Sync.py script to add-back Ollama to sync with the [OpenWebUI parent repo](https://github.com/open-webui/open-webui).
-
-TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Building Branches Locally](/projects/location/setup/) within a fork of the [Modelearth OpenWebUI fork (modelearthbranch)](https://github.com/ModelEarth/open-webui/tree/modelearthbranch)
-
 ### Earthscape NextJS Chatbot UI fork
 
 Our [Earthscape fork of Chatbot UI](https://model.earth/earthscape/app/) - React, Supabase and [NextJS Hosting using GitHub Pages](https://www.freecodecamp.org/news/how-to-deploy-next-js-app-to-github-pages/)
 
 
-### Storyboard Generator
+### Location Impact Storyboard Generator
 
-Generate .CSV prompt files from location data pulled from Census stats and Google Data Commons.
+Generate .CSV prompt files from location data pulled from Industry levels, Census stats and Google Data Commons.
 
 - [Storyboard Active Reader](/requests/) - Loads prompts from .csv files and outputs to GitHub
+
 - [OpenWebUI image generation](https://docs.openwebui.com/tutorials/images/) - with AUTOMATIC1111, ComfyUI, and OpenAI DALL·E
+
 - [Google Notebook LM](https://notebooklm.google) - Train with PDFs, websites, videos, audio files, Google Docs
+
+- [Our OpenWebUI for Locations](location/) experiments are aimed at [Retrieval Augmented Generation (RAG)](https://docs.openwebui.com/features/rag/) for location-based "context window" recency.<!-- Next: Text to Action / Nividia Kuda is their advantage = code library that interacts with chip -->
+
+TO DO: Try new Ollama omit command `ENABLE_OLLAMA_API=False` with Google Cloud. Hopefully we no longer need to develop our [Customize.py script](/projects/location/setup/customize/) to remove local use of Ollama. Nor our Sync.py script to add-back Ollama to sync with the [OpenWebUI parent repo](https://github.com/open-webui/open-webui).
+
+TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Building Branches Locally](/projects/location/setup/) within a fork of the [Modelearth OpenWebUI fork (modelearthbranch)](https://github.com/ModelEarth/open-webui/tree/modelearthbranch)
 
 
 ## 3. RealityStream Machine Learning - Server-Side Python (ML)
