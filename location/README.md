@@ -47,7 +47,7 @@ TO DO: Figure out how to load localsite.js within our clean [Datascape fork](htt
 
 TO DO: Use Flask in a [projects/backend/location](https://github.com/ModelEarth/projects/tree/main/backend) folder and interact with our Supabase REST API - Nanden
 
-TO DO: Create an example of running [Run-Models-bkup.ipynb](https://github.com/ModelEarth/RealityStream/tree/main/models) saved from our [RealityStream CoLab](../../RealityStream/).
+TO DO: Create an example of running [Run-Models-bkup.ipynb](https://github.com/ModelEarth/realitystream/tree/main/models) saved from our [RealityStream CoLab](../../realitystream/).
 
 TO DO: Set up [RAG context](https://docs.openwebui.com/tutorial/rag/) using our [Supabase International Trade Flow](../../profile/prep/sql/supabase/) data.
 
