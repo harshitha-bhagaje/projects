@@ -19,6 +19,14 @@ medium.com subscription needed
 Create a developer account in [Omdena.com](https://omdena.com) and help us create [team panels](/panels) using the 
 
 - [Document adding Flask as our optional python webroot](../localsite/start/steps/)
+
+
+4 Agent projects
+
+1. Google Data Commons Timelines eCharts and US EPA Chord chart Impacts
+2. RealityStream ML Forecasting - with 6 standard ML models
+3. FeedPlayer, for viewing API feeds, such as NASA images and video
+4. NullSchool Maps + NISAR satellite data to visualize earth surface movements
 -->
 
 # Active Projects
@@ -37,6 +45,10 @@ IN PROGRESS: [Javascript Timelines from Google Data Commons API](/data-commons/d
 
 We're pulling images and video via [our FeedPlayer](../feed) which can be pointed at a Github repo or any API.
 
+TO DO: Try new Ollama omit command `ENABLE_OLLAMA_API=False` with Google Cloud. Hopefully we no longer need to develop our [Customize.py script](/projects/location/setup/customize/) to remove local use of Ollama. Nor our Sync.py script to add-back Ollama to sync with the [OpenWebUI parent repo](https://github.com/open-webui/open-webui).
+
+TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Building Branches Locally](/projects/location/setup/) within a fork of the [Modelearth OpenWebUI fork (modelearthbranch)](https://github.com/ModelEarth/open-webui/tree/modelearthbranch)
+
 <!--
 **More Data Commons Visualization Projects**
 [Observable with Data Commons](/data-commons/) - [Data Loaders How-To](/data-commons/dist/air/)
@@ -50,35 +62,39 @@ We're pulling images and video via [our FeedPlayer](../feed) which can be pointe
 TO DO: [Hosting DataCommons locally with Flask](/localsite/info/data/datacommons) - Vishnupriya and our GDC team
 -->
 
-## 2. Planet Langchain - Javascript with LLM APIs (AI)
-
-[Planet Langchain Dev](/planet) within our [Planet Repo](https://github.com/modelearth/planet) for using [LangchainJS](https://github.com/langchain-ai/langchainjs).
-
-Our [repo pull page](../home/repo) uses GitHub's API to load images, music and text to send to LLM APIs using javascript.
-
-IN PROGRESS: Add javascript to our [Planet repo](https://github.com/modelearth/planet/) that uses [Langchain's Chat Model Interface](https://python.langchain.com/docs/concepts/chat_models/), send a page from any GitHUb repo to an AI API like OpenAI to provide Retrieval Augmented Generation (RAG) using [LangChain.js](https://api.js.langchain.com) javascript. - Dhananjay, Kelly, Adithya
-
-TO DO: Integrate [our API storage in javascript](/localsite/tools/storage/api/) to store API keys locally.
-
-TO DO: Pull SeeClickFix API and feed to Langchain
-
-../feed/view/#feed=seeclickfix-311
-
-Also, by choosing "SeeClickFix - v2" in the upper right dropdown menu images are displayed:
-
-../feed
-
-The Langchain API "planet" repo could identify 3 solvable issues in the SeeClickFix feed and provide cost estimates for resolving issues with the involvement of local contractors and government agencies.
+## 2. OpenWebUI and Planet Langchain - LLM Location Interfaces
 
 
-<!--See also: DataStax Astra DB-->
+### OpenWebUI for Locations - Python
 
-**Python Retrieval Augmented Generation (RAG)**
+- [Our OpenWebUI for Locations](location/) experiments with [RAG](https://docs.openwebui.com/features/rag/) for location-based context.<!-- Next: Text to Action / Nividia Kuda is their advantage = code library that interacts with chip -->
 
-TO DO: Move Python Langchain into main branch in [Our Python Langchain Repo](https://github.com/modelearth/langchain/) <!--Dhananjay and Pranathi  -->
+- [OpenWebUI image generation](https://docs.openwebui.com/tutorials/images/) - with AUTOMATIC1111, ComfyUI, and OpenAI DALL·E
 
-[Conversational RAG for 10 LLMs](https://python.langchain.com/docs/tutorials/qa_chat_history/) - Pradeep and Pranoy  
+- [Google Notebook LM](https://notebooklm.google) - Train with PDFs, websites, videos, audio files, Google docs
 
+
+### Planet Langchain - JavaScript
+
+- [Planet Langchain Dev](/planet) within our [Planet Repo](https://github.com/modelearth/planet) for using [LangchainJS](https://github.com/langchain-ai/langchainjs).
+
+- Our [repo pull page](../home/repo) uses GitHub's API to load images, music and text to send to LLM APIs using javascript.
+
+- Our Langchain filters are being integrated with our [Storyboard Active Reader](/requests/) which loads prompts from .csv files and outputs to GitHub.
+
+- TO DO: Add to our [Planet repo](https://github.com/modelearth/planet/) interface using [Langchain's Chat Models](https://python.langchain.com/docs/concepts/chat_models/).  
+
+- Pull a page from any GitHub repo to an LLM API to provide train RAG using [LangChain.js](https://api.js.langchain.com) javascript.<!-- Dhananjay, Kelly, Adithya-->
+
+- TO DO: Integrate [our API storage in javascript](/localsite/tools/storage/api/) to store API keys locally.
+
+
+<!--See also: DataStax Astra DB
+
+Langchain Python Repo
+https://github.com/ModelEarth/langchain
+
+[Conversational RAG for 10 LLMs](https://python.langchain.com/docs/tutorials/qa_chat_history/) - Pradeep and Pranoy 
 Pradeep: Pinecone on AWS free 2 GB max
 Pranoy: DocArray in memory Vecto Store (database)
 
@@ -88,33 +104,20 @@ Content prep for RAG: [Innovations in Water Purification](/evaporation-kits/inno
 
 **Retrieval-Interleaved Generation (RIG)**  
 Using [Google Data Commons DataGemma AI](https://ai.google.dev/gemma/docs/datagemma) - For RIG, Zihan found that a paid Google plan was needed to avoid storage/memory errors/timeouts. Here's our [RIG CoLab](https://colab.research.google.com/drive/1eLtHOR6e3lAUVijUJ56VMaiTU6hA9enc?usp=sharing).
-
+-->
 
 ### Earthscape NextJS Chatbot UI fork
 
-Our [Earthscape fork of Chatbot UI](https://model.earth/earthscape/app/) - React, Supabase and [NextJS Hosting using GitHub Pages](https://www.freecodecamp.org/news/how-to-deploy-next-js-app-to-github-pages/)
+- Our [Earthscape fork of Chatbot UI](https://model.earth/earthscape/app/) - React, Supabase and [NextJS Hosting using GitHub Pages](https://www.freecodecamp.org/news/how-to-deploy-next-js-app-to-github-pages/).
 
+- Use commands to deploy to GitHub Pages for free static hosting.
 
-### Location Impact Storyboard Generator
-
-Generate .CSV prompt files from location data pulled from Industry levels, Census stats and Google Data Commons.
-
-- [Storyboard Active Reader](/requests/) - Loads prompts from .csv files and outputs to GitHub
-
-- [OpenWebUI image generation](https://docs.openwebui.com/tutorials/images/) - with AUTOMATIC1111, ComfyUI, and OpenAI DALL·E
-
-- [Google Notebook LM](https://notebooklm.google) - Train with PDFs, websites, videos, audio files, Google Docs
-
-- [Our OpenWebUI for Locations](location/) experiments are aimed at [Retrieval Augmented Generation (RAG)](https://docs.openwebui.com/features/rag/) for location-based "context window" recency.<!-- Next: Text to Action / Nividia Kuda is their advantage = code library that interacts with chip -->
-
-TO DO: Try new Ollama omit command `ENABLE_OLLAMA_API=False` with Google Cloud. Hopefully we no longer need to develop our [Customize.py script](/projects/location/setup/customize/) to remove local use of Ollama. Nor our Sync.py script to add-back Ollama to sync with the [OpenWebUI parent repo](https://github.com/open-webui/open-webui).
-
-TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Building Branches Locally](/projects/location/setup/) within a fork of the [Modelearth OpenWebUI fork (modelearthbranch)](https://github.com/ModelEarth/open-webui/tree/modelearthbranch)
+<!-- Generate .CSV prompt files from location data pulled from Industry levels, Census stats and Google Data Commons. -->
 
 
 ## 3. RealityStream Machine Learning - Server-Side Python (ML)
 
-[Run Models Colab](/realitystream/)
+[RealityStream ML](/realitystream/) - [Run Models Colab](/realitystream/input/industries/)
 
 Related frontend deployments deployed to Google Cloud with Flask can be tested in our [cloud repo](https://github.com/ModelEarth/cloud). Add a folder for yourself in the cloud repo. These two repos have Flask examples: [Our webhook](https://github.com/ModelEarth/webhook) and [OpenWebUI](https://github.com/open-webui/open-webui). Doucument your Flask deployment commands.
 
