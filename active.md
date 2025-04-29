@@ -154,21 +154,16 @@ IN PROGRESS: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add F
 
 ## 4. International Trade Flow - SQL, Python, Javascript (IO)
 
+[International Trade Flow SQL Data Prep](/profile/trade) - Exiobase Colab, charts and SQL
+<!-- Contributors: Gary, Satya, Himanshu, Sahil, Poorna -->
+
 NEW: Locate the SQL table CREATE scripts for [SuiteCRM](https://SuiteCRM.com) ([version 8 download](https://suitecrm.com/download/)) and install in an Azure instance.
 
-TO DO:  Find and embed/fork existing open source [UN Comtrade visualizations](https://comtradeplus.un.org/Visualization/Labs) with Exiobase data and/or [MARIO python](https://mario-suite.readthedocs.io/en/latest/intro.html). 
+NEW: Update javascript report to use json generated from our Exiobase in CoLabs.
 
-TO DO: Processing Exiobase in CoLabs, displaying with javascript
+TO DO:  Find and embed/fork existing open source [UN Comtrade visualizations](https://comtradeplus.un.org/Visualization/Labs) with Exiobase data and/or [MARIO python](https://mario-suite.readthedocs.io/en/latest/intro.html).
 
-Contributors: Gary, Satya, Himanshu, Sahil, Poorna
-
-[International Trade Flow SQL Data Prep](/profile/trade) - Exiobase Colab and charts
-
-[Our little trade flow Sankey](/profile/trade/) - [Big Sankey](https://sankey.theshiftproject.org/) - [Our Fork with python 3.10](https://github.com/ModelEarth/Mapping-global-ghg-emissions) and [bug resolved](https://github.com/baptiste-an/Mapping-global-ghg-emissions/issues/2)
-
-TO DO: [Chord Chart Data Prep](/io/charts/chord/) <!-- Poorna and everyone interested --> - Bin
-
-TO DO: [Chort Chart](https://model.earth/profile/charts/d3/chord-diagram/) - Bindu
+IN PROGRESS: [Chord Chart json object](https://model.earth/useeio.js/footprint/chord) and [D3 Chord](/profile/charts/d3/chord_diagram_d3/) - Bindu and Lakshi
 
 TO DO: [Python to pull Harmonized Code (HS) lookups into Supabase](/profile/harmonized-system/) - Kruthi
 
