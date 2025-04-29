@@ -125,7 +125,7 @@ TO DO: Javascript interface to choose from our existing pre-processed [job data]
 
 TO DO: Send URL hash # parameters to our [Run Models CoLab](/realitystream) using a [webhook on Google Cloud (ChatGPT)](https://chatgpt.com/share/670e7002-85fc-8003-a466-9b682012f3ea)
 
-TO DO: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add Flask deployment documentation. [Our webhook repo](https://github.com/ModelEarth/webhook) has Google Cloud Flask documentation to copy and update for your Flask hosting setup examples.
+IN PROGRESS: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add Flask deployment documentation. [Our webhook repo](https://github.com/ModelEarth/webhook) has Google Cloud Flask documentation to copy and update for your Flask hosting setup examples. - Prem Chand
 
 <!--
 **Anvil with our CoLabs:**
