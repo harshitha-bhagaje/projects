@@ -152,7 +152,9 @@ IN PROGRESS: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add F
 - [Push EPA date to Google Data Commons API](https://docs.datacommons.org/api/)
 
 
-## 4. International Trade Flow - Python, SQL, Javascript (IO)
+## 4. International Trade Flow - SQL, Python, Javascript (IO)
+
+NEW: Locate the SQL table CREATE scripts for [SuiteCRM](https://SuiteCRM.com) ([version 8 download](https://suitecrm.com/download/)) and install in an Azure instance.
 
 TO DO:  Find and embed/fork existing open source [UN Comtrade visualizations](https://comtradeplus.un.org/Visualization/Labs) with Exiobase data and/or [MARIO python](https://mario-suite.readthedocs.io/en/latest/intro.html). 
 
