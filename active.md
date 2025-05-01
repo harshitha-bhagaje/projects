@@ -157,7 +157,7 @@ IN PROGRESS: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add F
 [International Trade Flow SQL Data Prep](/profile/trade) - Exiobase Colab, charts and SQL
 <!-- Contributors: Gary, Satya, Himanshu, Sahil, Poorna -->
 
-NEW: Locate the SQL table CREATE scripts for [SuiteCRM](https://SuiteCRM.com) ([version 8 download](https://suitecrm.com/download/)) and install in an Azure instance.
+NEW: We're [configuring SuiteCRM](../profile/crm/) to run in an Azure instance.
 
 NEW: Update javascript report to use json generated from our Exiobase in CoLabs.
 
