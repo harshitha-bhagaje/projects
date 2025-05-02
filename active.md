@@ -210,11 +210,10 @@ Bhavna, Yash, Apurva, Vennela
 
 Embeddable player for Image and Video sequences pulled from APIs and Google Sheets
 
-- [Discord API](https://discord.com/developers/docs/intro) - Our Team list is pulled from Discord into our [Feed Player](../feed/) 
+- [Discord API](https://discord.com/developers/docs/intro) - Our Team list is pulled from the Discord API into our Feed Player
 
-- [Feed Player](../feed/dist) - Video and Images from API feeds and Google Sheet lists
-- [NASA Feed Viewer](../feed/view/#feed=nasa) - JSON, YAML, CSS, RSS - [Address Lookup](/feed/view/#feed=311)
-- [Feed Player Visuals initially](/feed/dist/) - Restore display of BigBunny images and video, or show NASA images.
+- [Feed Player](../feed/) - Video and Images from API feeds and Google Sheet lists
+- [NASA Feed Viewer](../feed/view/#feed=nasa) - JSON, YAML, CSS, RSS - [See Click Fix Address Lookup](/feed/view/#feed=seeclickfix-311)
 
 <!--
 - [Add Datawrapper.de](https://www.datawrapper.de/) using "link external dataset"
