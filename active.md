@@ -1,4 +1,3 @@
-
 <!--
 medium.com subscription needed
 
@@ -187,13 +186,8 @@ TO DO: Pull into SQL DuckDB
 
 ## 5. Open Footprint Interactive Labels (Open)
 
-[Open Footprint Builder](/io/template/) - [Profile Object Javascript](/food/) - [BuildingTransparency.org Impact API](/profile/products/)
+[Open Footprint Builder](/io/template/) - [Profile Object Javascript](/profile/item/) - [BuildingTransparency.org Impact API](/profile/products/)
 
-
-
-<!--
-[Food Nutrition Labels](/data-commons/docs/food) - Shali and Wenwei (Stella)
--->
 
 **BuildingTransparency and Open Footprint labels**
 
