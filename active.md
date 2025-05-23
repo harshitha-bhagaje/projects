@@ -36,6 +36,20 @@ Select one of the 7 project areas below and add your first name below by editing
 
 [OPT Volunteers Welcome!](../community/members/welcome) - Overview and New Member Signup
 
+**Current Challenges / Barrier to Progress**
+
+Please focus on one of the following:
+
+1. [Complete Flask+Colab install script](/cloud/run/)
+2. [Activate PHP in our SuiteCRM .sh install script](/profile/crm/)
+3. [Add python to RealityStream for Google Data Commons DCIDs](/realitystream/)
+4. [Finish converting LanchainJS to static site](/planet/langchain/)
+5. [Lovable.dev + Azure setup Experiments](https://techcommunity.microsoft.com/blog/aiplatformblog/the-future-of-ai-how-lovable-dev-and-azure-openai-accelerate-apps-that-change-li/4413375)
+<!--
+5. [React FeedPlayer]() - 
+6. [Products Repo](/products)
+-->
+
 ## 1. Javascript Data Visualization (JS)
 
 Our [Everybody's Home Page](../home) process is being designed to display infinite content based on parameters.
