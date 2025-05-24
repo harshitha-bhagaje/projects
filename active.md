@@ -36,9 +36,8 @@ Select one of the 7 project areas below and add your first name below by editing
 
 [OPT Volunteers Welcome!](../community/members/welcome) - Overview and New Member Signup
 
-**Current Challenges / Barrier to Progress**
-
-Please focus on one of the following:
+**Current Challenges**
+Consider focusing on one of the following:
 
 1. [Complete Flask+Colab install script](/cloud/run/)
 2. [Activate PHP in our SuiteCRM .sh install script](/profile/crm/)
