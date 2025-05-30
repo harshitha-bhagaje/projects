@@ -135,9 +135,11 @@ Related frontend deployments deployed to Google Cloud with Flask can be tested i
 
 TO DO: Javascript interface to choose from our existing pre-processed [job data](/realitystream) and Google Data Commons API.
 
-TO DO: Send URL hash # parameters to our [Run Models CoLab](/realitystream) using a [webhook on Google Cloud (ChatGPT)](https://chatgpt.com/share/670e7002-85fc-8003-a466-9b682012f3ea)
+TO DO: Use our [cloud repo](https://github.com/ModelEarth/cloud) and finalize Flask deployment documentation.
 
-IN PROGRESS: Use our [cloud repo](https://github.com/ModelEarth/cloud) and add Flask deployment documentation. [Our webhook repo](https://github.com/ModelEarth/webhook) has Google Cloud Flask documentation to copy and update for your Flask hosting setup examples. - Prem Chand
+UNSURE: Not sure if the following can be triggered from a webpage:  
+Send URL hash # parameters to our [Run Models CoLab](/realitystream) using a [webhook on Google Cloud (ChatGPT)](https://chatgpt.com/share/670e7002-85fc-8003-a466-9b682012f3ea)
+
 
 <!--
 **Anvil with our CoLabs:**
