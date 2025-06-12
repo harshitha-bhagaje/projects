@@ -28,6 +28,11 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 4. NullSchool Maps + NISAR satellite data to visualize earth surface movements
 -->
 
+### Today's Focus
+
+[Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22)
+
+
 # Active Projects
 
 Our weekly [DreamStudio Earth](https://dreamstudio.com/io/coders/) meetups are every [Thursday at 7pm ET](/io/coders/).
@@ -43,7 +48,7 @@ Consider focusing on one of the following:
 2. [Activate PHP in our SuiteCRM .sh install script](/profile/crm/)
 3. [Add python to RealityStream for Google Data Commons DCIDs](/realitystream/)
 4. [Finish converting LanchainJS to static site](/planet/langchain/)
-5. [Lovable.dev + Azure setup Experiments](https://techcommunity.microsoft.com/blog/aiplatformblog/the-future-of-ai-how-lovable-dev-and-azure-openai-accelerate-apps-that-change-li/4413375)
+5. [Bolt AI + Azure setup](/profile/crm)
 <!--
 5. [React FeedPlayer]() - 
 6. [Products Repo](/products)
