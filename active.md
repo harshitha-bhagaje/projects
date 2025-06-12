@@ -50,6 +50,8 @@ Consider focusing on one of the following:
 4. [Finish converting LanchainJS to static site](/planet/langchain/)
 5. [Bolt AI + Azure setup](/profile/crm)
 <!--
+https://techcommunity.microsoft.com/blog/aiplatformblog/the-future-of-ai-how-lovable-dev-and-azure-openai-accelerate-apps-that-change-li/4413375
+
 5. [React FeedPlayer]() - 
 6. [Products Repo](/products)
 -->
