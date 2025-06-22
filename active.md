@@ -28,10 +28,12 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 4. NullSchool Maps + NISAR satellite data to visualize earth surface movements
 -->
 
-### Today's Focus
+### RealityStream updates in progress
 
-[Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22)
-
+[Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
+[RealityStream](/realitystream/) parameters file in report - Melody
+RealityStream industry titles in importance report - Abivish
+Tree Canopy denistiy as forecasting target - Sai Thanmayi
 
 # Active Projects
 
@@ -45,10 +47,10 @@ Select one of the 7 project areas below and add your first name below by editing
 Consider focusing on one of the following:
 
 1. [Complete Flask+Colab install script](/cloud/run/)
-2. [Activate PHP in our SuiteCRM .sh install script](/profile/crm/)
+2. [Test install of Apache & PHP in our SuiteCRM .sh script](/profile/crm/)
 3. [Add python to RealityStream for Google Data Commons DCIDs](/realitystream/)
 4. [Finish converting LanchainJS to static site](/planet/langchain/)
-5. [Bolt AI + Azure setup](/profile/crm)
+5. [Bolt AI + Azure setup for Leptos Rust with Azure PostgreSQL](/profile/crm)
 <!--
 https://techcommunity.microsoft.com/blog/aiplatformblog/the-future-of-ai-how-lovable-dev-and-azure-openai-accelerate-apps-that-change-li/4413375
 
