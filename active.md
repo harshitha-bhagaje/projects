@@ -33,7 +33,7 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 [Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
 [RealityStream](/realitystream/) parameters file in report - Melody
 RealityStream industry titles in importance report - Abivish
-Tree Canopy denistiy as forecasting target - Sai Thanmayi
+Tree Canopy density as forecasting target - Sai Thanmayi
 
 # Active Projects
 
