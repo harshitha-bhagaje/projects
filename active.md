@@ -28,14 +28,23 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 4. NullSchool Maps + NISAR satellite data to visualize earth surface movements
 -->
 
+# Active Projects
+
+### MemberCommons for Teamss
+
+JAM Stack with Rust API and Azure PostgreSQL and Google Sheets
+
+[Admin Dashboard](../team/admin/) and our [Model Team List](../team/projects#list=modelteam)  
+[Fork our teams repo](https://github.com/modelearth/team) and contribute using [Claude Code CLI](https://www.anthropic.com/engineering/claude-code-best-practices) - [Configure your Server](../team/admin/server/)
+
 ### RealityStream updates in progress
 
 [Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
 [RealityStream](/realitystream/) parameters file in report - Melody
 RealityStream industry titles in importance report - Abivish
 Tree Canopy density as forecasting target - Sai Thanmayi
+<br>
 
-# Active Projects
 
 Our weekly [DreamStudio Earth](https://dreamstudio.com/io/coders/) meetups are every [Thursday at 7pm ET](/io/coders/).
 
