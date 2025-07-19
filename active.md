@@ -30,7 +30,12 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 
 # Active Projects
 
-### MemberCommons for Teamss
+### AI Data Pipeline for Industry IO
+
+[Model.earth Data Pipeline](/data-pipeline/) - Recent notes in Discord
+Flow Diagrams using [n8n automation](https://n8n.io/) and NextJS with Claude Code CLI
+
+### MemberCommons for Teams
 
 JAM Stack with Rust API and Azure PostgreSQL and Google Sheets
 
