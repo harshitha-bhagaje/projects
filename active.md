@@ -44,8 +44,7 @@ JAM Stack with Rust API and Azure PostgreSQL and Google Sheets
 
 ### RealityStream updates in progress
 
-[Pull features and targets into RealityStream Run Models colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
-[RealityStream](/realitystream/) parameters file in report - Melody
+[Pull features and targets into colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
 RealityStream industry titles in importance report - Abivish
 Tree Canopy density as forecasting target - Sai Thanmayi
 <br>
@@ -64,7 +63,7 @@ Consider focusing on one of the following:
 2. [Test install of Apache & PHP in our SuiteCRM .sh script](/profile/crm/)
 3. [Add python to RealityStream for Google Data Commons DCIDs](/realitystream/)
 4. [Finish converting LanchainJS to static site](/planet/langchain/)
-5. [Bolt AI + Azure setup for Leptos Rust with Azure PostgreSQL](/profile/crm)
+5. [UX with our Azure backend and Rust API](/profile/crm) - [Admin Dashboard](/team/admin/)
 <!--
 https://techcommunity.microsoft.com/blog/aiplatformblog/the-future-of-ai-how-lovable-dev-and-azure-openai-accelerate-apps-that-change-li/4413375
 
