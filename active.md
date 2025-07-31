@@ -5,20 +5,12 @@ medium.com subscription needed
 	https://bhavikjikadara.medium.com/how-to-install-open-webui-without-docker-33eedbda9b96
 -->
 
+[Full-Stack Cloudflare SaaS kit](https://github.com/Dhravya/cloudflare-saas-stack) - and SuperMemoryAI
+
 <!--
-**Timely Projects**
-
-- [Activate Ollama on a different server](https://docs.openwebui.com/) for use with our [Docker Setup](/projects/location/setup/docker/)
-
-
-	Full-Stack Cloudflare SaaS kit
-	https://github.com/Dhravya/cloudflare-saas-stack
-
-
 Create a developer account in [Omdena.com](https://omdena.com) and help us create [team panels](/panels) using the 
 
 - [Document adding Flask as our optional python webroot](../localsite/start/steps/)
-
 
 4 Agent projects
 
@@ -79,10 +71,6 @@ IN PROGRESS: [Javascript Timelines from Google Data Commons API](/data-commons/d
 
 We're pulling images and video via [our FeedPlayer](../feed) which can be pointed at a Github repo or any API.
 
-TO DO: Try new Ollama omit command `ENABLE_OLLAMA_API=False` with Google Cloud. Hopefully we no longer need to develop our [Customize.py script](/projects/location/setup/customize/) to remove local use of Ollama. Nor our Sync.py script to add-back Ollama to sync with the [OpenWebUI parent repo](https://github.com/open-webui/open-webui).
-
-TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Building Branches Locally](/projects/location/setup/) within a fork of the [Modelearth OpenWebUI fork (modelearthbranch)](https://github.com/ModelEarth/open-webui/tree/modelearthbranch)
-
 <!--
 **More Data Commons Visualization Projects**
 [Observable with Data Commons](/data-commons/) - [Data Loaders How-To](/data-commons/dist/air/)
@@ -96,19 +84,10 @@ TO DO: [Add localsite.js to OpenWebUI](/projects/location/) - steps for [Buildin
 TO DO: [Hosting DataCommons locally with Flask](/localsite/info/data/datacommons) - Vishnupriya and our GDC team
 -->
 
-## 2. OpenWebUI and Planet Langchain - LLM Location Interfaces
+## 2. Planet Langchain - LLM Interface
 
+Recent work is also underway in [earthscape Anything LLM](https://model.earth/earthscape) and [Team AI Insights](https://model.earth/team/)
 
-### OpenWebUI for Locations - Python
-
-- [Our OpenWebUI for Locations](location/) experiments with [RAG](https://docs.openwebui.com/features/rag/) for location-based context.<!-- Next: Text to Action / Nividia Kuda is their advantage = code library that interacts with chip -->
-
-- [OpenWebUI image generation](https://docs.openwebui.com/tutorials/images/) - with AUTOMATIC1111, ComfyUI, and OpenAI DALL·E
-
-- [Google Notebook LM](https://notebooklm.google) - Train with PDFs, websites, videos, audio files, Google docs
-
-
-### Planet Langchain - JavaScript
 
 - [Planet Langchain Dev](/planet) within our [Planet Repo](https://github.com/modelearth/planet) for using [LangchainJS](https://github.com/langchain-ai/langchainjs).
 
@@ -153,9 +132,8 @@ Using [Google Data Commons DataGemma AI](https://ai.google.dev/gemma/docs/datage
 
 [RealityStream ML](/realitystream/) - [Run Models Colab](/realitystream/input/industries/)
 
-Related frontend deployments deployed to Google Cloud with Flask can be tested in our [cloud repo](https://github.com/ModelEarth/cloud). Add a folder for yourself in the cloud repo. These two repos have Flask examples: [Our webhook](https://github.com/ModelEarth/webhook) and [OpenWebUI](https://github.com/open-webui/open-webui). Doucument your Flask deployment commands.
+Frontend deployments to Google Cloud with Flask are in our [cloud repo](https://github.com/ModelEarth/cloud). Add a folder for your own Flask setups in the cloud repo. [Our webhook repo](https://github.com/ModelEarth/webhook) has a simple Flask example.
 
-TO DO: Javascript interface to choose from our existing pre-processed [job data](/realitystream) and Google Data Commons API.
 
 TO DO: Use our [cloud repo](https://github.com/ModelEarth/cloud/tree/main/run) and finalize Flask deployment step for interacting with our RealityStream Run Models colab backup file. [Cloud run config frontend](https://model.earth/cloud/run/)
 
