@@ -5,7 +5,6 @@ medium.com subscription needed
 	https://bhavikjikadara.medium.com/how-to-install-open-webui-without-docker-33eedbda9b96
 -->
 
-[Full-Stack Cloudflare SaaS kit](https://github.com/Dhravya/cloudflare-saas-stack) - and SuperMemoryAI
 
 <!--
 Create a developer account in [Omdena.com](https://omdena.com) and help us create [team panels](/panels) using the 
@@ -22,15 +21,16 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 
 # Active Projects
 
-### AI Data Pipeline for Industry IO
+### Webroots for RAG training and IO Data Pipeline
 
+[CodeChat](../codechat/) - Overview of webroots for developer insights RAG training
+[ModelEarth with AnythingLLM](https://model.earth/modelearth/) - Install steps for Claude Code CLI
+[MaterialScience webroot](https://model.earth/materialscience/) - International and state tradeflow for Claude Code CLI
 [Model.earth Data Pipeline](/data-pipeline/) - Recent notes in Discord
-Flow Diagrams using [n8n automation](https://n8n.io/) and NextJS with Claude Code CLI
 
 ### MemberCommons for Teams
 
-JAM Stack with Rust API and Azure PostgreSQL and Google Sheets
-
+JAM Stack with Rust API and Azure PostgreSQL and Google Sheets  
 [Admin Dashboard](../team/admin/) and our [Model Team List](../team/projects#list=modelteam)  
 [Fork our teams repo](https://github.com/modelearth/team) and contribute using [Claude Code CLI](https://www.anthropic.com/engineering/claude-code-best-practices) - [Configure your Server](../team/admin/server/)
 
@@ -39,8 +39,14 @@ JAM Stack with Rust API and Azure PostgreSQL and Google Sheets
 [Pull features and targets into colab from Google Data Commons](https://github.com/ModelEarth/realitystream/issues/22) - Prathuyusha
 RealityStream industry titles in importance report - Abivish
 Tree Canopy density as forecasting target - Sai Thanmayi
-<br>
 
+### Resources
+
+[Full-Stack Cloudflare SaaS kit](https://github.com/Dhravya/cloudflare-saas-stack) - and SuperMemoryAI
+<!--Coming soon: Flow Diagrams using [n8n automation](https://n8n.io/) and NextJS-->
+
+
+## Get Involved!
 
 Our weekly [DreamStudio Earth](https://dreamstudio.com/io/coders/) meetups are every [Thursday at 7pm ET](/io/coders/).
 
