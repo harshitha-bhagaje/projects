@@ -25,7 +25,7 @@ Create a developer account in [Omdena.com](https://omdena.com) and help us creat
 
 [CodeChat](../codechat/) - Overview of webroots for developer insights RAG training
 [ModelEarth with AnythingLLM](https://model.earth/modelearth/) - Install steps for Claude Code CLI
-[MaterialScience webroot](https://model.earth/materialscience/) - International and state tradeflow for Claude Code CLI
+[MaterialScience webroot](https://model.earth/MaterialScience/) - International and state tradeflow for Claude Code CLI
 [Model.earth Data Pipeline](/data-pipeline/) - Recent notes in Discord
 
 ### MemberCommons for Teams
