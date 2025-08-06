@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModelEarth Projects - Issue Tracker</title>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    
+    <!-- Base styles -->
+    <link type="text/css" rel="stylesheet" href="/localsite/css/base.css" id="/localsite/css/base.css" />
+    <!--
+    <script type="text/javascript" src="/localsite/js/localsite.js"></script>
+    -->
+    <!-- Issues manager styles -->
+    <link rel="stylesheet" href="../css/issues.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="content contentpadding">
+        <div class="issues-header">
+            <div class="header-content">
+                <h1><i class="fab fa-github"></i> ModelEarth Projects</h1>
+                <p class="subtitle">Comprehensive issue tracking across all ModelEarth repositories</p>
+            </div>
+            
+            <!-- GitHub Authentication -->
+            <div class="auth-section" id="authSection">
+                <div class="auth-input">
+                    <input type="password" id="githubToken" placeholder="Enter GitHub Personal Access Token (optional for public repos)">
+                    <button id="saveToken" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Token
+                    </button>
+                    <button id="clearToken" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+                <div class="auth-help">
+                    <i class="fas fa-info-circle"></i>
+                    <span><strong>Add Your GitHub Token</strong> to increase API rate limits from 60 to 5,000 requests per hour and access private repositories. 
+                    <a href="https://github.com/settings/tokens/new?description=ModelEarth+Projects+Hub&scopes=repo,read:org" target="_blank" class="token-link">
+                        <i class="fas fa-external-link-alt"></i> Get Your Token Here
+                    </a></span>
+                </div>
+                <div class="auth-instructions">
+                    <details>
+                        <summary><i class="fas fa-question-circle"></i> How to create a GitHub token?</summary>
+                        <div class="instructions-content">
+                            <ol>
+                                <li>Click the "Get Your Token Here" link above (opens GitHub)</li>
+                                <li>You'll be taken to GitHub's token creation page with recommended settings</li>
+                                <li>Add a description like "ModelEarth Projects Hub"</li>
+                                <li>Select scopes: <code>repo</code> (for private repos) and <code>read:org</code> (for organization data)</li>
+                                <li>Click "Generate token" at the bottom</li>
+                                <li>Copy the generated token immediately (you won't see it again!)</li>
+                                <li>Paste it in the field above and click "Save Token"</li>
+                            </ol>
+                            <p class="note">
+                                <i class="fas fa-shield-alt"></i>
+                                <strong>Security:</strong> Tokens are stored locally in your browser only. Never share your token with others.
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rate Limit Information -->
+        <div id="rateLimitInfo" class="rate-limit-info" style="display: none;">
+            <!-- Rate limit information will be displayed here -->
+        </div>
+
+        <!-- Loading indicator -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading GitHub data...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <p class="loading-status" id="loadingStatus">Fetching repositories...</p>
+            </div>
+        </div>
+
+        <!-- Filters and Controls -->
+        <div class="filters-section" id="filtersSection" style="display: none;">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="repoFilter">Repository:</label>
+                    <select id="repoFilter" class="filter-select">
+                        <option value="all">All Repositories</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <button id="sortButton" class="filter-button">
+                        <i class="fas fa-sort"></i> Sort by: Updated
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="sortDropdown">
+                        <div class="dropdown-item" data-sort="updated">
+                            <i class="fas fa-calendar-alt"></i> Updated Date
+                        </div>
+                        <div class="dropdown-item" data-sort="created">
+                            <i class="fas fa-plus"></i> Created Date
+                        </div>
+                        <div class="dropdown-item" data-sort="comments">
+                            <i class="fas fa-comments"></i> Comment Count
+                        </div>
+                        <div class="dropdown-item" data-sort="title">
+                            <i class="fas fa-sort-alpha-down"></i> Title (A-Z)
+                        </div>
+                        <div class="dropdown-item" data-sort="number">
+                            <i class="fas fa-hashtag"></i> Issue Number
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <button id="assigneeButton" class="filter-button">
+                        <i class="fas fa-user"></i> Assigned to: All
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="assigneeDropdown">
+                        <div class="dropdown-item" data-assignee="all">
+                            <i class="fas fa-users"></i> All Users
+                        </div>
+                        <div class="dropdown-item" data-assignee="unassigned">
+                            <i class="fas fa-user-slash"></i> Unassigned
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <button id="stateButton" class="filter-button">
+                        <i class="fas fa-exclamation-circle"></i> State: Open
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="stateDropdown">
+                        <div class="dropdown-item" data-state="open">
+                            <i class="fas fa-exclamation-circle"></i> Open Issues
+                        </div>
+                        <div class="dropdown-item" data-state="closed">
+                            <i class="fas fa-check-circle"></i> Closed Issues
+                        </div>
+                        <div class="dropdown-item" data-state="all">
+                            <i class="fas fa-list"></i> All Issues
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <button id="labelButton" class="filter-button">
+                        <i class="fas fa-tags"></i> Labels: All
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="labelDropdown">
+                        <div class="dropdown-item" data-label="all">
+                            <i class="fas fa-tags"></i> All Labels
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters-row">
+                <div class="search-group">
+                    <input type="text" id="searchInput" placeholder="Search issues by title, body, or number...">
+                    <button id="searchButton" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="clearSearch" class="btn btn-secondary" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="view-controls">
+                    <button id="refreshButton" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="view-toggle">
+                        <button id="listView" class="view-btn active">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button id="cardView" class="view-btn">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="stats-section" id="statsSection" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="repoCount">0</div>
+                    <div class="stat-label">Repositories</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="openIssueCount">0</div>
+                    <div class="stat-label">Open Issues</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="closedIssueCount">0</div>
+                    <div class="stat-label">Closed Issues</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalComments">0</div>
+                    <div class="stat-label">Comments</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Issues Container -->
+        <div class="issues-container" id="issuesContainer" style="display: none;">
+            <div class="issues-list" id="issuesList">
+                <!-- Issues will be dynamically loaded here -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container" id="paginationContainer">
+                <div class="pagination-info">
+                    <span id="paginationInfo">Showing 0 of 0 issues</span>
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- Pagination buttons will be generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="error-content">
+                <h3>Error Loading Issues</h3>
+                <p id="errorText">Failed to load GitHub data. Please check your connection and try again.</p>
+                <button id="retryButton" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Retry
+                </button>
+            </div>
+        </div>
+
+        <!-- Issue Detail Modal -->
+        <div class="modal-overlay" id="issueModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Issue Details</h2>
+                    <button class="modal-close" id="modalClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <!-- Issue details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the main JavaScript -->
+    <script src="../js/issues.js"></script>
+</body>
+</html>
