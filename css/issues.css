@@ -67,6 +67,26 @@
     opacity: 0.9;
 }
 
+.issues-header .subtitle-description {
+    margin: 0;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.token-toggle-link {
+    color: white !important;
+    text-decoration: none !important;
+    border-bottom: 2px dotted rgba(255, 255, 255, 0.6);
+    transition: var(--transition);
+    padding-bottom: 2px;
+    cursor: pointer;
+}
+
+.token-toggle-link:hover {
+    border-bottom-color: white;
+    opacity: 1;
+}
+
 .issues-header i {
     margin-right: 0.5rem;
     color: white;
@@ -135,6 +155,11 @@
     transform: translateY(-1px);
 }
 
+.auth-instructions summary .token-link {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
 .auth-instructions {
     margin-top: 1rem;
     position: relative;
@@ -154,9 +179,16 @@
     font-weight: 500;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
     transition: var(--transition);
     user-select: none;
+}
+
+.auth-instructions summary span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .auth-instructions summary:hover {
@@ -235,6 +267,18 @@
 
 .rate-limit-warning strong {
     font-weight: 600;
+}
+
+/* Last Refresh Info */
+.last-refresh-info {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.last-refresh-info .text-muted {
+    color: var(--text-muted);
 }
 
 /* Loading Overlay */
@@ -558,6 +602,7 @@
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--box-shadow);
+    margin-bottom: 15px;
 }
 
 .dark .issues-container {
@@ -799,6 +844,16 @@
 .btn-outline:hover {
     background: var(--primary-color);
     color: white;
+}
+
+/* Issue action buttons - make both Details and GitHub buttons blue */
+.issue-actions .btn-outline {
+    color: #58a6ff !important;
+}
+
+.issue-actions .btn-outline:hover {
+    background: var(--primary-color);
+    color: white !important;
 }
 
 .btn-sm {

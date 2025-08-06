@@ -22,33 +22,39 @@
         <div class="issues-header">
             <div class="header-content">
                 <h1><i class="fab fa-github"></i> ModelEarth Projects</h1>
-                <p class="subtitle">Comprehensive issue tracking across all ModelEarth repositories</p>
+                <p class="subtitle">
+                    <a href="#" id="toggleTokenSection" class="token-toggle-link" style="font-size: 0.9rem;">Add Your GitHub Token</a>
+                    <span id="tokenBenefitText" style="font-size: 0.9rem;"> to increase API rate limits from 60 to 5,000 requests per hour</span>
+                    <span id="headerLastRefreshTime" style="font-size: 0.9rem; display: none;"> Issue counts last updated: <span id="headerRefreshTime">Never</span>.</span>
+                </p>
             </div>
             
             <!-- GitHub Authentication -->
-            <div class="auth-section" id="authSection">
+            <div class="auth-section" id="authSection" style="display: none;">
                 <div class="auth-input">
                     <input type="password" id="githubToken" placeholder="Enter GitHub Personal Access Token (optional for public repos)">
                     <button id="saveToken" class="btn btn-primary">
                         <i class="fas fa-save"></i> Save Token
                     </button>
-                    <button id="clearToken" class="btn btn-secondary" style="display: none;">
-                        <i class="fas fa-trash"></i> Clear
+                    <button id="clearToken" class="btn btn-primary" style="display: none;">
+                        Clear
                     </button>
                 </div>
                 <div class="auth-help">
                     <i class="fas fa-info-circle"></i>
-                    <span><strong>Add Your GitHub Token</strong> to increase API rate limits from 60 to 5,000 requests per hour and access private repositories. 
-                    <a href="https://github.com/settings/tokens/new?description=ModelEarth+Projects+Hub&scopes=repo,read:org" target="_blank" class="token-link">
-                        <i class="fas fa-external-link-alt"></i> Get Your Token Here
-                    </a></span>
+                    <span><strong>Token Benefits:</strong> Access private repositories and higher rate limits.</span>
                 </div>
                 <div class="auth-instructions">
                     <details>
-                        <summary><i class="fas fa-question-circle"></i> How to create a GitHub token?</summary>
+                        <summary>
+                            <span><i class="fas fa-question-circle"></i> How to create a GitHub token?</span>
+                            <a href="https://github.com/settings/tokens/new?description=ModelEarth+Projects+Hub&scopes=repo,read:org" target="_blank" class="token-link">
+                                <i class="fas fa-external-link-alt"></i> Get Your Token
+                            </a>
+                        </summary>
                         <div class="instructions-content">
                             <ol>
-                                <li>Click the "Get Your Token Here" link above (opens GitHub)</li>
+                                <li>Click the "Get Your Token" link above (opens GitHub)</li>
                                 <li>You'll be taken to GitHub's token creation page with recommended settings</li>
                                 <li>Add a description like "ModelEarth Projects Hub"</li>
                                 <li>Select scopes: <code>repo</code> (for private repos) and <code>read:org</code> (for organization data)</li>
@@ -82,6 +88,7 @@
                 <p class="loading-status" id="loadingStatus">Fetching repositories...</p>
             </div>
         </div>
+
 
         <!-- Filters and Controls -->
         <div class="filters-section" id="filtersSection" style="display: none;">
@@ -190,6 +197,23 @@
             </div>
         </div>
 
+        <!-- Issues Container -->
+        <div class="issues-container" id="issuesContainer" style="display: none;">
+            <div class="issues-list" id="issuesList">
+                <!-- Issues will be dynamically loaded here -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination-container" id="paginationContainer">
+                <div class="pagination-info">
+                    <span id="paginationInfo">Showing 0 of 0 issues</span>
+                </div>
+                <div class="pagination-controls" id="paginationControls">
+                    <!-- Pagination buttons will be generated here -->
+                </div>
+            </div>
+        </div>
+
         <!-- Summary Stats -->
         <div class="stats-section" id="statsSection" style="display: none;">
             <div class="stat-card">
@@ -226,23 +250,6 @@
                 <div class="stat-content">
                     <div class="stat-number" id="totalComments">0</div>
                     <div class="stat-label">Comments</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Issues Container -->
-        <div class="issues-container" id="issuesContainer" style="display: none;">
-            <div class="issues-list" id="issuesList">
-                <!-- Issues will be dynamically loaded here -->
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination-container" id="paginationContainer">
-                <div class="pagination-info">
-                    <span id="paginationInfo">Showing 0 of 0 issues</span>
-                </div>
-                <div class="pagination-controls" id="paginationControls">
-                    <!-- Pagination buttons will be generated here -->
                 </div>
             </div>
         </div>
