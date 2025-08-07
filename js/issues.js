@@ -4,10 +4,21 @@
  */
 
 class GitHubIssuesManager {
-    constructor() {
+    constructor(containerId = 'issuesWidget', options = {}) {
+        this.containerId = containerId;
+        
+        // Read configuration from data attributes or options
+        const container = document.getElementById(containerId);
+        const config = this.parseConfiguration(container, options);
+        
         this.githubToken = localStorage.getItem('github_token') || '';
         this.baseURL = 'https://api.github.com';
-        this.owner = 'ModelEarth'; // Default owner, can be updated
+        this.owner = config.githubOwner;
+        this.detectCurrentFolder = config.detectCurrentFolder;
+        this.multiRepoRoots = config.multiRepoRoots;
+        this.currentFolder = this.getCurrentFolder();
+        this.defaultRepo = this.determineDefaultRepo();
+        
         this.perPage = 10;
         this.currentPage = 1;
         this.allIssues = [];
@@ -27,7 +38,7 @@ class GitHubIssuesManager {
         
         // State management
         this.filters = {
-            repo: 'projects',
+            repo: this.defaultRepo,
             sort: 'updated',
             assignee: 'all',
             state: 'open',
@@ -41,7 +52,381 @@ class GitHubIssuesManager {
         this.init();
     }
 
+    parseConfiguration(container, options) {
+        const config = {
+            githubOwner: 'ModelEarth',
+            detectCurrentFolder: true,
+            multiRepoRoots: ['webroot', 'PartnerTools', 'MaterialScience', 'modelearth']
+        };
+
+        // Read from data attributes if container exists
+        if (container) {
+            if (container.dataset.githubOwner) {
+                config.githubOwner = container.dataset.githubOwner;
+            }
+            if (container.dataset.detectCurrentFolder) {
+                config.detectCurrentFolder = container.dataset.detectCurrentFolder === 'true';
+            }
+            if (container.dataset.multiRepoRoots) {
+                config.multiRepoRoots = container.dataset.multiRepoRoots.split(',').map(s => s.trim());
+            }
+        }
+
+        // Override with explicit options
+        return { ...config, ...options };
+    }
+
+    getCurrentFolder() {
+        // Get current folder from URL path
+        const path = window.location.pathname;
+        const pathParts = path.split('/').filter(part => part.length > 0);
+        
+        // Return the first non-empty path segment (top-level folder)
+        return pathParts.length > 0 ? pathParts[0] : '';
+    }
+
+    determineDefaultRepo() {
+        if (!this.detectCurrentFolder) {
+            return 'projects'; // Default fallback
+        }
+
+        // If current folder is one of the multi-repo roots, default to 'all'
+        if (this.multiRepoRoots.includes(this.currentFolder)) {
+            console.log(`Detected multi-repo root '${this.currentFolder}', defaulting to 'all' repositories`);
+            return 'all';
+        }
+
+        // If current folder exists and is not a multi-repo root, use it as default
+        if (this.currentFolder) {
+            console.log(`Detected current folder '${this.currentFolder}', using as default repository`);
+            return this.currentFolder;
+        }
+
+        // Fallback to 'projects' if no folder detected
+        console.log('No folder detected, defaulting to projects repository');
+        return 'projects';
+    }
+
+    // Widget HTML template methods
+    createWidgetStructure() {
+        const container = document.getElementById(this.containerId);
+        if (!container) {
+            console.error(`Container with id '${this.containerId}' not found`);
+            return;
+        }
+
+        container.innerHTML = `
+            ${this.createHeaderHTML()}
+            ${this.createRateLimitHTML()}
+            ${this.createLoadingOverlayHTML()}
+            ${this.createFiltersHTML()}
+            ${this.createIssuesContainerHTML()}
+            ${this.createStatsHTML()}
+            ${this.createErrorHTML()}
+            ${this.createModalHTML()}
+        `;
+    }
+
+    createHeaderHTML() {
+        return `
+            <div class="issues-header">
+                <div class="header-content">
+                    <h1><i class="fab fa-github"></i> ModelEarth Projects</h1>
+                    <p class="subtitle">
+                        <a href="#" id="toggleTokenSection" class="token-toggle-link" style="font-size: 0.9rem;">Add Your GitHub Token</a>
+                        <span id="tokenBenefitText" style="font-size: 0.9rem;"> to increase API rate limits from 60 to 5,000 requests per hour</span>
+                        <span id="headerLastRefreshTime" style="font-size: 0.9rem; display: none;"> Issue counts last updated: <span id="headerRefreshTime">Never</span>.</span>
+                    </p>
+                </div>
+                
+                <!-- GitHub Authentication -->
+                <div class="auth-section" id="authSection" style="display: none;">
+                    <div class="auth-input">
+                        <input type="password" id="githubToken" placeholder="Enter GitHub Personal Access Token (optional for public repos)">
+                        <button id="saveToken" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Token
+                        </button>
+                        <button id="clearToken" class="btn btn-primary" style="display: none;">
+                            Clear
+                        </button>
+                    </div>
+                    <div class="auth-help">
+                        <i class="fas fa-info-circle"></i>
+                        <span><strong>Token Benefits:</strong> Access private repositories and higher rate limits.</span>
+                    </div>
+                    <div class="auth-instructions">
+                        <details>
+                            <summary>
+                                <span><i class="fas fa-question-circle"></i> How to create a GitHub token?</span>
+                                <a href="https://github.com/settings/tokens/new?description=ModelEarth+Projects+Hub&scopes=repo,read:org" target="_blank" class="token-link">
+                                    <i class="fas fa-external-link-alt"></i> Get Your Token
+                                </a>
+                            </summary>
+                            <div class="instructions-content">
+                                <ol>
+                                    <li>Click the "Get Your Token" link above (opens GitHub)</li>
+                                    <li>You'll be taken to GitHub's token creation page with recommended settings</li>
+                                    <li>Add a description like "ModelEarth Projects Hub"</li>
+                                    <li>Select scopes: <code>repo</code> (for private repos) and <code>read:org</code> (for organization data)</li>
+                                    <li>Click "Generate token" at the bottom</li>
+                                    <li>Copy the generated token immediately (you won't see it again!)</li>
+                                    <li>Paste it in the field above and click "Save Token"</li>
+                                </ol>
+                                <p class="note">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <strong>Security:</strong> Tokens are stored locally in your browser only. Never share your token with others.
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    createRateLimitHTML() {
+        return `
+            <div id="rateLimitInfo" class="rate-limit-info" style="display: none;">
+                <!-- Rate limit information will be displayed here -->
+            </div>
+        `;
+    }
+
+    createLoadingOverlayHTML() {
+        return `
+            <div class="loading-overlay" id="loadingOverlay">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading GitHub data...</p>
+                    <div class="loading-progress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <p class="loading-status" id="loadingStatus">Fetching repositories...</p>
+                </div>
+            </div>
+        `;
+    }
+
+    createFiltersHTML() {
+        return `
+            <div class="filters-section" id="filtersSection" style="display: none;">
+                <button class="filters-close-btn" id="filtersCloseBtn" style="display: none;">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="filters-row filters-primary-row">
+                    <div class="filter-group">
+                        <select id="repoFilter" class="filter-select">
+                            <option value="all">All Repositories</option>
+                        </select>
+                    </div>
+                    
+                    <button id="moreFiltersBtn" class="btn btn-outline more-filters-btn" style="display: none;">
+                        <i class="fas fa-filter"></i> More Filters
+                    </button>
+
+                    <div class="filter-group additional-filters">
+                        <button id="sortButton" class="filter-button">
+                            <i class="fas fa-sort"></i> Sort by: Updated
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="sortDropdown">
+                            <div class="dropdown-item" data-sort="updated">
+                                <i class="fas fa-calendar-alt"></i> Updated Date
+                            </div>
+                            <div class="dropdown-item" data-sort="created">
+                                <i class="fas fa-plus"></i> Created Date
+                            </div>
+                            <div class="dropdown-item" data-sort="comments">
+                                <i class="fas fa-comments"></i> Comment Count
+                            </div>
+                            <div class="dropdown-item" data-sort="title">
+                                <i class="fas fa-sort-alpha-down"></i> Title (A-Z)
+                            </div>
+                            <div class="dropdown-item" data-sort="number">
+                                <i class="fas fa-hashtag"></i> Issue Number
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group additional-filters">
+                        <button id="assigneeButton" class="filter-button">
+                            <i class="fas fa-user"></i> Assigned to: All
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="assigneeDropdown">
+                            <div class="dropdown-item" data-assignee="all">
+                                <i class="fas fa-users"></i> All Users
+                            </div>
+                            <div class="dropdown-item" data-assignee="unassigned">
+                                <i class="fas fa-user-slash"></i> Unassigned
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group additional-filters">
+                        <button id="stateButton" class="filter-button">
+                            <i class="fas fa-exclamation-circle"></i> State: Open
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="stateDropdown">
+                            <div class="dropdown-item" data-state="open">
+                                <i class="fas fa-exclamation-circle"></i> Open Issues
+                            </div>
+                            <div class="dropdown-item" data-state="closed">
+                                <i class="fas fa-check-circle"></i> Closed Issues
+                            </div>
+                            <div class="dropdown-item" data-state="all">
+                                <i class="fas fa-list"></i> All Issues
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group additional-filters">
+                        <button id="labelButton" class="filter-button">
+                            <i class="fas fa-tags"></i> Labels: All
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="labelDropdown">
+                            <div class="dropdown-item" data-label="all">
+                                <i class="fas fa-tags"></i> All Labels
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filters-row filters-secondary-row additional-filters">
+                    <div class="search-container">
+                        <div class="search-group">
+                            <input type="text" id="searchInput" placeholder="Search issues by title, body, or number...">
+                            <button id="searchButton" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                            <button id="clearSearch" class="btn btn-secondary" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="view-controls">
+                        <div class="view-toggle">
+                            <button id="listView" class="view-btn active" title="List View">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button id="rowView" class="view-btn" title="Row View">
+                                <i class="fas fa-align-justify"></i>
+                            </button>
+                            <button id="cardView" class="view-btn" title="Card View">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    createIssuesContainerHTML() {
+        return `
+            <div class="issues-container" id="issuesContainer" style="display: none;">
+                <div class="issues-list" id="issuesList">
+                    <!-- Issues will be dynamically loaded here -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-container" id="paginationContainer">
+                    <div class="pagination-info">
+                        <span id="paginationInfo">Showing 0 of 0 issues</span>
+                    </div>
+                    <div class="pagination-controls" id="paginationControls">
+                        <!-- Pagination buttons will be generated here -->
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    createStatsHTML() {
+        return `
+            <div class="stats-section" id="statsSection" style="display: none;">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="repoCount">0</div>
+                        <div class="stat-label">Repositories</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="openIssueCount">0</div>
+                        <div class="stat-label">Open Issues</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="closedIssueCount">0</div>
+                        <div class="stat-label">Closed Issues</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number" id="totalComments">0</div>
+                        <div class="stat-label">Comments</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    createErrorHTML() {
+        return `
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="error-content">
+                    <h3>Error Loading Issues</h3>
+                    <p id="errorText">Failed to load GitHub data. Please check your connection and try again.</p>
+                    <button id="retryButton" class="btn btn-primary">
+                        <i class="fas fa-redo"></i> Retry
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    createModalHTML() {
+        return `
+            <div class="modal-overlay" id="issueModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modalTitle">Issue Details</h2>
+                        <button class="modal-close" id="modalClose">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Issue details will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
     async init() {
+        // Create the widget structure first
+        this.createWidgetStructure();
+        
         this.setupEventListeners();
         this.loadFromHash();
         this.loadFromCache();
@@ -340,16 +725,23 @@ class GitHubIssuesManager {
         const searchButton = document.getElementById('searchButton');
         const clearSearch = document.getElementById('clearSearch');
 
-        searchButton.addEventListener('click', () => this.performSearch());
+        searchButton.addEventListener('click', () => {
+            this.performSearch();
+            this.loadData(true); // Also refresh data like the old refresh button
+        });
         clearSearch.addEventListener('click', () => this.clearSearch());
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.performSearch();
         });
 
         // View controls
-        document.getElementById('refreshButton').addEventListener('click', () => this.loadData(true));
         document.getElementById('listView').addEventListener('click', () => this.setView('list'));
+        document.getElementById('rowView').addEventListener('click', () => this.setView('row'));
         document.getElementById('cardView').addEventListener('click', () => this.setView('card'));
+
+        // Filters expand/collapse
+        document.getElementById('moreFiltersBtn').addEventListener('click', () => this.expandFilters());
+        document.getElementById('filtersCloseBtn').addEventListener('click', () => this.collapseFilters());
 
         // Modal
         document.getElementById('modalClose').addEventListener('click', () => this.closeModal());
@@ -1226,6 +1618,12 @@ class GitHubIssuesManager {
         issueDiv.className = 'issue-item';
         issueDiv.setAttribute('data-issue-id', issue.id);
 
+        // Determine if we're showing multiple repositories
+        const showingMultipleRepos = this.filters.repo === 'all' || this.repositoryIssueCounts && Object.keys(this.repositoryIssueCounts).length > 1;
+        
+        // Get current view type
+        const currentView = this.currentView;
+        
         const stateIcon = issue.state === 'open' ? 
             '<i class="fas fa-exclamation-circle issue-open"></i>' : 
             '<i class="fas fa-check-circle issue-closed"></i>';
@@ -1241,6 +1639,27 @@ class GitHubIssuesManager {
                     ${label.name}
                 </span>
             `).join('') : '';
+
+        // Row view content (title + body preview)
+        if (currentView === 'row') {
+            issueDiv.innerHTML = `
+                <div class="issue-header">
+                    <div class="issue-title-row">
+                        ${stateIcon}
+                        <h3 class="issue-title">
+                            <a href="${issue.html_url}" target="_blank">${this.escapeHtml(issue.title)}</a>
+                        </h3>
+                        <div class="issue-number">#${issue.number}</div>
+                    </div>
+                </div>
+                ${issue.body ? `
+                    <div class="issue-description">
+                        ${this.formatMarkdown(issue.body.substring(0, 150))}${issue.body.length > 150 ? '...' : ''}
+                    </div>
+                ` : ''}
+            `;
+            return issueDiv;
+        }
 
         const repoInfo = this.repositories.find(r => r.name === issue.repository) || {};
         const repoImages = repoInfo.images && repoInfo.images.length > 0 ? `
@@ -1307,6 +1726,16 @@ class GitHubIssuesManager {
                 </div>
                 
                 ${repoImages}
+                
+                <!-- Content for narrow card view (handled by CSS) -->
+                <div class="issue-repo-name" style="display: ${showingMultipleRepos ? 'block' : 'none'};">
+                    ${issue.repository}
+                </div>
+                ${!showingMultipleRepos && issue.body ? `
+                    <div class="issue-body-preview">
+                        ${this.formatMarkdown(issue.body.substring(0, 100))}${issue.body.length > 100 ? '...' : ''}
+                    </div>
+                ` : ''}
             </div>
         `;
 
@@ -1700,6 +2129,17 @@ class GitHubIssuesManager {
         }
     }
 
+    // Filters expand/collapse management
+    expandFilters() {
+        const filtersSection = document.getElementById('filtersSection');
+        filtersSection.classList.add('expanded');
+    }
+
+    collapseFilters() {
+        const filtersSection = document.getElementById('filtersSection');
+        filtersSection.classList.remove('expanded');
+    }
+
     // UI helpers
     showLoading(show) {
         const issuesContainer = document.getElementById('issuesContainer');
@@ -1745,6 +2185,70 @@ class GitHubIssuesManager {
     }
 
     showNotification(message, type = 'info') {
+        // Check if this is a loading message that should be shown in issues container
+        const isLoadingMessage = message.toLowerCase().includes('loading');
+        
+        if (isLoadingMessage) {
+            // Show loading messages inside the issues container
+            this.showInlineNotification(message, type);
+        } else {
+            // Show other notifications as floating (existing behavior)
+            this.showFloatingNotification(message, type);
+        }
+    }
+
+    showInlineNotification(message, type = 'info') {
+        const issuesContainer = document.getElementById('issuesContainer');
+        const issuesList = document.getElementById('issuesList');
+        
+        if (!issuesContainer || !issuesList) return;
+        
+        // Make sure issues container is visible
+        issuesContainer.style.display = 'block';
+        
+        // Create notification element with subtle styling
+        const notification = document.createElement('div');
+        notification.className = `inline-notification ${type}`;
+        
+        // Use spinner for loading messages, other icons for other types
+        const isLoadingMessage = message.toLowerCase().includes('loading');
+        let iconHtml;
+        
+        if (isLoadingMessage) {
+            iconHtml = '<i class="fas fa-spinner fa-spin inline-spinner"></i>';
+        } else {
+            const iconMap = {
+                'success': 'check',
+                'error': 'exclamation-triangle',
+                'info': 'info'
+            };
+            const icon = iconMap[type] || 'info';
+            iconHtml = `<i class="fas fa-${icon}-circle"></i>`;
+        }
+        
+        notification.innerHTML = `
+            ${iconHtml}
+            ${message}
+        `;
+        
+        // Clear any existing inline notifications
+        const existingNotification = issuesList.querySelector('.inline-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+        
+        // Add to top of issues list
+        issuesList.insertBefore(notification, issuesList.firstChild);
+        
+        // Auto-hide after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.remove();
+            }
+        }, 3000);
+    }
+
+    showFloatingNotification(message, type = 'info') {
         // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
@@ -1809,5 +2313,13 @@ class GitHubIssuesManager {
 // Initialize the issues manager when the page loads
 let issuesManager;
 document.addEventListener('DOMContentLoaded', () => {
-    issuesManager = new GitHubIssuesManager();
+    // Check if there's a specific container, otherwise use default
+    const container = document.getElementById('issuesWidget');
+    if (container) {
+        // Get container ID from data attribute or use default
+        const containerId = container.dataset.containerId || 'issuesWidget';
+        issuesManager = new GitHubIssuesManager(containerId);
+    } else {
+        console.error('Issues widget container not found. Please add <div id="issuesWidget"></div> to your page.');
+    }
 });
