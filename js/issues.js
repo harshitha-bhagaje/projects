@@ -48,6 +48,7 @@ class GitHubIssuesManager {
         
         // UI state
         this.currentView = 'list'; // Default view
+        this.isFullscreen = false;
         
         this.init();
     }
@@ -137,6 +138,8 @@ class GitHubIssuesManager {
                         <span id="tokenBenefitText" style="font-size: 0.9rem;"> to increase API rate limits from 60 to 5,000 requests per hour</span>
                         <span id="headerLastRefreshTime" style="font-size: 0.9rem; display: none;"> Issue counts last updated: <span id="headerRefreshTime">Never</span>.</span>
                     </p>
+                    <!-- Narrow view fullscreen icon -->
+                    <i class="fas fa-expand header-fullscreen-btn" onclick="issuesManager.toggleFullscreen()" title="Toggle Fullscreen" style="display: none;"></i>
                 </div>
                 
                 <!-- GitHub Authentication -->
@@ -307,6 +310,15 @@ class GitHubIssuesManager {
                         </div>
                     </div>
 
+                </div>
+            </div>
+        `;
+    }
+
+    createIssuesContainerHTML() {
+        return `
+            <div class="issues-container" id="issuesContainer" style="display: none;">
+                <div class="issues-header-bar">
                     <div class="view-controls">
                         <div class="view-toggle">
                             <button id="listView" class="view-btn active" title="List View">
@@ -321,13 +333,7 @@ class GitHubIssuesManager {
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
-    }
-
-    createIssuesContainerHTML() {
-        return `
-            <div class="issues-container" id="issuesContainer" style="display: none;">
+                
                 <div class="issues-list" id="issuesList">
                     <!-- Issues will be dynamically loaded here -->
                 </div>
@@ -471,7 +477,7 @@ class GitHubIssuesManager {
 
     async loadRepositoriesFromCSV() {
         try {
-            const response = await fetch('repos.csv');
+            const response = await fetch('hub/repos.csv');
             const csvText = await response.text();
             return this.parseCSV(csvText);
         } catch (error) {
@@ -762,6 +768,9 @@ class GitHubIssuesManager {
 
         // Hash change listener
         window.addEventListener('hashchange', () => this.loadFromHash());
+        
+        // Resize listener to update width display
+        window.addEventListener('resize', () => this.updatePagination());
     }
 
     setupDropdown(buttonId, dropdownId, callback) {
@@ -1374,7 +1383,9 @@ class GitHubIssuesManager {
         const sortedRepos = [...this.repositories].sort((a, b) => {
             if (a.name === 'projects') return -1;
             if (b.name === 'projects') return 1;
-            return (a.displayName || a.name).localeCompare(b.displayName || b.name);
+            const aName = (a.displayName || a.name || '').toString();
+            const bName = (b.displayName || b.name || '').toString();
+            return aName.localeCompare(bName);
         });
         
         // Add individual repositories first (Projects will be at the top)
@@ -1577,7 +1588,7 @@ class GitHubIssuesManager {
                 case 'comments':
                     return (b.comments || 0) - (a.comments || 0);
                 case 'title':
-                    return a.title.localeCompare(b.title);
+                    return (a.title || '').localeCompare(b.title || '');
                 case 'number':
                     return b.number - a.number;
                 case 'updated':
@@ -1717,10 +1728,10 @@ class GitHubIssuesManager {
                     
                     <div class="issue-actions">
                         <button class="btn btn-sm btn-outline" onclick="issuesManager.showIssueDetails(${issue.id})">
-                            <i class="fas fa-eye"></i> Details
+                            <i class="fas fa-eye"></i><span> Details</span>
                         </button>
                         <a href="${issue.html_url}" target="_blank" class="btn btn-sm btn-outline">
-                            <i class="fab fa-github"></i> GitHub
+                            <i class="fab fa-github"></i><span> GitHub</span>
                         </a>
                     </div>
                 </div>
@@ -1853,9 +1864,29 @@ class GitHubIssuesManager {
         const startIndex = (this.currentPage - 1) * this.perPage;
         const endIndex = Math.min(startIndex + this.perPage, this.filteredIssues.length);
 
-        // Update pagination info
-        document.getElementById('paginationInfo').textContent = 
+        // Get container width for display
+        const container = document.getElementById(this.containerId);
+        const containerWidth = container ? container.offsetWidth : 0;
+        
+        // Update pagination info with width and fullscreen controls
+        const paginationInfo = document.getElementById('paginationInfo');
+        const fullscreenIcon = this.isFullscreen ? 'fa-compress' : 'fa-expand';
+        const fullscreenTitle = this.isFullscreen ? 'Exit Fullscreen' : 'Toggle Fullscreen';
+        
+        const leftText = this.filteredIssues.length === 0 ? 
+            'No issues found' : 
             `Showing ${startIndex + 1}-${endIndex} of ${this.filteredIssues.length} issues (${this.perPage} per page)`;
+            
+        const rightText = `Widget width ${containerWidth}px <i class="fas ${fullscreenIcon} fullscreen-btn" onclick="issuesManager.toggleFullscreen()" title="${fullscreenTitle}" style="margin-left: 0.5rem; cursor: pointer; color: var(--primary-color);"></i>`;
+        
+        paginationInfo.innerHTML = `<span class="pagination-left">${leftText}</span><span class="pagination-right" style="color: var(--text-muted); font-size: 0.85em;">${rightText}</span>`;
+        
+        // Update header fullscreen icon
+        const headerIcon = document.querySelector('.header-fullscreen-btn');
+        if (headerIcon) {
+            headerIcon.className = `fas ${fullscreenIcon} header-fullscreen-btn`;
+            headerIcon.title = fullscreenTitle;
+        }
 
         // Update pagination controls
         const paginationControls = document.getElementById('paginationControls');
@@ -2063,6 +2094,43 @@ class GitHubIssuesManager {
             this.currentView = savedView;
             this.setView(savedView, false); // Don't save when loading
         }
+    }
+    
+    toggleFullscreen() {
+        const container = document.getElementById(this.containerId);
+        if (!container) return;
+        
+        this.isFullscreen = !this.isFullscreen;
+        
+        if (this.isFullscreen) {
+            // Enter fullscreen
+            container.classList.add('widget-fullscreen');
+            document.body.classList.add('widget-fullscreen-active');
+            
+            // Add minimize button to issues header bar
+            const headerBar = document.querySelector('.issues-header-bar');
+            if (headerBar && !headerBar.querySelector('.minimize-btn')) {
+                const minimizeBtn = document.createElement('button');
+                minimizeBtn.className = 'minimize-btn';
+                minimizeBtn.innerHTML = '<i class="fas fa-compress"></i>';
+                minimizeBtn.title = 'Exit Fullscreen';
+                minimizeBtn.onclick = () => this.toggleFullscreen();
+                headerBar.insertBefore(minimizeBtn, headerBar.firstChild);
+            }
+        } else {
+            // Exit fullscreen
+            container.classList.remove('widget-fullscreen');
+            document.body.classList.remove('widget-fullscreen-active');
+            
+            // Remove minimize button
+            const minimizeBtn = document.querySelector('.minimize-btn');
+            if (minimizeBtn) {
+                minimizeBtn.remove();
+            }
+        }
+        
+        // Update icon in pagination
+        this.updatePagination();
     }
 
     loadFromCache() {
