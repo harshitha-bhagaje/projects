@@ -27,13 +27,16 @@ class GitHubIssuesManager {
         
         // State management
         this.filters = {
-            repo: 'modelearth',
+            repo: 'projects',
             sort: 'updated',
             assignee: 'all',
             state: 'open',
             label: 'all',
             search: ''
         };
+        
+        // UI state
+        this.currentView = 'list'; // Default view
         
         this.init();
     }
@@ -43,6 +46,9 @@ class GitHubIssuesManager {
         this.loadFromHash();
         this.loadFromCache();
         this.updateTokenUI();
+        
+        // Load saved view preference
+        this.loadViewPreference();
         
         // Auto-detect owner from current URL or default to ModelEarth
         this.detectOwner();
@@ -968,9 +974,19 @@ class GitHubIssuesManager {
         }
         
         const allReposText = totalIssues > 0 ? `All Repositories (${totalIssues})` : 'All Repositories';
-        select.innerHTML = `<option value="all">${allReposText}</option>`;
         
-        this.repositories.forEach(repo => {
+        // Start with empty select
+        select.innerHTML = '';
+        
+        // Sort repositories to put Projects first, then others, then All Repositories at the end
+        const sortedRepos = [...this.repositories].sort((a, b) => {
+            if (a.name === 'projects') return -1;
+            if (b.name === 'projects') return 1;
+            return (a.displayName || a.name).localeCompare(b.displayName || b.name);
+        });
+        
+        // Add individual repositories first (Projects will be at the top)
+        sortedRepos.forEach(repo => {
             const option = document.createElement('option');
             option.value = repo.name;
             
@@ -987,12 +1003,18 @@ class GitHubIssuesManager {
             select.appendChild(option);
         });
         
+        // Add "All Repositories" option at the end
+        const allOption = document.createElement('option');
+        allOption.value = 'all';
+        allOption.textContent = allReposText;
+        select.appendChild(allOption);
+        
         select.value = this.filters.repo;
         
-        // If modelearth repo exists in the list, make sure it's selected
-        const modelEarthOption = Array.from(select.options).find(option => option.value === 'modelearth');
-        if (modelEarthOption && this.filters.repo === 'modelearth') {
-            select.value = 'modelearth';
+        // If projects repo exists in the list, make sure it's selected when appropriate
+        const projectsOption = Array.from(select.options).find(option => option.value === 'projects');
+        if (projectsOption && this.filters.repo === 'projects') {
+            select.value = 'projects';
         }
     }
 
@@ -1601,6 +1623,18 @@ class GitHubIssuesManager {
         };
         localStorage.setItem('github_issues_cache', JSON.stringify(cacheData));
     }
+    
+    saveViewPreference() {
+        localStorage.setItem('github_issues_view', this.currentView);
+    }
+    
+    loadViewPreference() {
+        const savedView = localStorage.getItem('github_issues_view');
+        if (savedView && (savedView === 'list' || savedView === 'card')) {
+            this.currentView = savedView;
+            this.setView(savedView, false); // Don't save when loading
+        }
+    }
 
     loadFromCache() {
         try {
@@ -1651,19 +1685,46 @@ class GitHubIssuesManager {
     }
 
     // View management
-    setView(viewType) {
+    setView(viewType, savePreference = true) {
+        this.currentView = viewType;
+        
         document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(viewType + 'View').classList.add('active');
         
         const issuesList = document.getElementById('issuesList');
         issuesList.className = `issues-list ${viewType}-view`;
+        
+        // Save view preference to localStorage (unless loading from saved preference)
+        if (savePreference) {
+            this.saveViewPreference();
+        }
     }
 
     // UI helpers
     showLoading(show) {
-        document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        const issuesContainer = document.getElementById('issuesContainer');
+        const issuesList = document.getElementById('issuesList');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        
         if (show) {
-            document.getElementById('progressBar').style.width = '0%';
+            // Show issues container and display loading inside it
+            issuesContainer.style.display = 'block';
+            issuesList.innerHTML = `
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <p>Loading GitHub data...</p>
+                    <div class="loading-progress">
+                        <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+                    </div>
+                    <p class="loading-status" id="loadingStatus">Fetching repositories...</p>
+                </div>
+            `;
+            // Hide the overlay loading
+            loadingOverlay.style.display = 'none';
+        } else {
+            // Hide the overlay loading (if it was showing)
+            loadingOverlay.style.display = 'none';
+            // Issues container will be managed by updateUI() method
         }
     }
 
