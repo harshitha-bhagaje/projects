@@ -131,6 +131,8 @@ class GitHubIssuesManager {
     createHeaderHTML() {
         return `
             <div class="issues-header">
+                <i class="fas fa-expand header-fullscreen-btn" onclick="issuesManager.toggleFullscreen()" title="Toggle Fullscreen"></i>
+                
                 <div class="header-content">
                     <h1><i class="fab fa-github"></i> ModelEarth Projects</h1>
                     <p class="subtitle">
@@ -138,8 +140,6 @@ class GitHubIssuesManager {
                         <span id="tokenBenefitText" style="font-size: 0.9rem;"> to increase API rate limits from 60 to 5,000 requests per hour</span>
                         <span id="headerLastRefreshTime" style="font-size: 0.9rem; display: none;"> Issue counts last updated: <span id="headerRefreshTime">Never</span>.</span>
                     </p>
-                    <!-- Narrow view fullscreen icon -->
-                    <i class="fas fa-expand header-fullscreen-btn" onclick="issuesManager.toggleFullscreen()" title="Toggle Fullscreen" style="display: none;"></i>
                 </div>
                 
                 <!-- GitHub Authentication -->
@@ -478,8 +478,14 @@ class GitHubIssuesManager {
     async loadRepositoriesFromCSV() {
         try {
             const response = await fetch('hub/repos.csv');
+            if (!response.ok) {
+                throw new Error(`CSV fetch failed: ${response.status}`);
+            }
             const csvText = await response.text();
-            return this.parseCSV(csvText);
+            console.log('📊 CSV content:', csvText);
+            const parsed = this.parseCSV(csvText);
+            console.log('📊 Parsed CSV data:', parsed);
+            return parsed;
         } catch (error) {
             console.error('Error loading repositories from CSV:', error);
             // Fallback to hardcoded list
@@ -841,7 +847,7 @@ class GitHubIssuesManager {
         const headerRefreshSpan = document.getElementById('headerLastRefreshTime');
         
         if (this.githubToken) {
-            toggleLink.textContent = 'Change/Remove your Github Token';
+            toggleLink.textContent = 'Change or Remove your Github Token';
             let text = ' The token has increased your API rate limits from 60 to 5,000 requests per hour';
             
             // Add current request count and reset time if available
@@ -1402,7 +1408,9 @@ class GitHubIssuesManager {
                 issueText = ` (${repo.openIssueCount})`;
             }
             
-            option.textContent = `${repo.displayName || repo.name}${issueText}`;
+            const repoName = repo.displayName || repo.name || 'Unknown';
+            option.textContent = `${repoName}${issueText}`;
+            console.log('📂 Adding repo to dropdown:', repo);
             select.appendChild(option);
         });
         

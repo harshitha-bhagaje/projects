@@ -78,7 +78,7 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    color: white;
+    color: white !important;
     font-size: 1.2rem;
     cursor: pointer;
     background: rgba(0, 0, 0, 0.2);
@@ -91,6 +91,10 @@
 .header-fullscreen-btn:hover {
     background: rgba(0, 0, 0, 0.4);
     transform: scale(1.1);
+}
+
+.issues-header {
+    position: relative;
 }
 
 .token-toggle-link {
@@ -487,12 +491,16 @@
     /* Show More Filters button on narrow screens */
     .more-filters-btn {
         display: inline-flex !important;
-        font-size: 0.85rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
         white-space: nowrap;
         min-width: auto;
         width: auto;
         flex: none;
+        flex-shrink: 0;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     
     /* When filters are expanded, show additional filters and close button */
@@ -511,25 +519,38 @@
     /* Adjust layout for narrow screens */
     .filters-primary-row {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         gap: 0.5rem;
+        flex-wrap: nowrap;
     }
     
     .filters-primary-row .filter-group:first-child {
         flex: 1;
-        min-width: 0;
+        min-width: 120px;
     }
     
     .filters-primary-row .filter-group:first-child .filter-select {
-        width: 95%;
-        min-width: 0;
+        width: 100%;
+        min-width: 120px;
+        max-width: calc(100vw - 200px);
     }
     
     /* Additional filters dropdown buttons */
     .additional-filters .filter-button {
-        width: 95%;
-        min-width: 0;
+        width: auto;
+        min-width: 140px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    /* Allow additional filters to wrap to next line */
+    .filters-row .additional-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 0.5rem;
     }
     
     .filters-secondary-row {
@@ -553,7 +574,12 @@
     
     .search-group input {
         flex: 1;
-        min-width: 0;
+        min-width: 100px;
+    }
+    
+    .search-group #searchButton {
+        flex-shrink: 0;
+        width: auto;
     }
     
     /* View controls compact layout */
@@ -564,6 +590,22 @@
         flex-shrink: 0;
     }
     
+}
+
+/* Specific range fix for repo filter width between 767px and 850px */
+@container (min-width: 600px) and (max-width: 850px) {
+    .filters-primary-row .filter-group:first-child .filter-select {
+        min-width: 200px !important;
+        width: auto !important;
+    }
+}
+
+/* Media query fallback for the range fix */
+@media (min-width: 600px) and (max-width: 850px) {
+    .filters-primary-row .filter-group:first-child .filter-select {
+        min-width: 200px !important;
+        width: auto !important;
+    }
 }
 
 /* Fallback for browsers without container queries */
@@ -579,8 +621,20 @@
     }
     
     .additional-filters .filter-button {
-        width: 95%;
-        min-width: 0;
+        width: auto;
+        min-width: 140px;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    /* Allow additional filters to wrap in media query fallback */
+    .filters-row .additional-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 0.5rem;
     }
     
     .filters-section.expanded .additional-filters {
@@ -656,6 +710,7 @@
     transition: var(--transition);
     min-width: 160px;
     justify-content: space-between;
+    white-space: nowrap;
 }
 
 .dark .filter-button {
@@ -747,6 +802,7 @@
     min-width: auto;
     padding: 0.5rem;
     flex-shrink: 0;
+    margin: 0px !important;
 }
 
 /* View Controls */
@@ -1107,6 +1163,22 @@ body.widget-fullscreen-active {
 .issue-actions {
     display: flex;
     gap: 0.5rem;
+    width: auto;
+    flex-shrink: 0;
+}
+
+/* Wide view - show button text */
+@container (min-width: 769px) {
+    .card-view .issue-actions .btn span {
+        display: inline !important;
+    }
+}
+
+/* Media query fallback for wide view */
+@media (min-width: 769px) {
+    .card-view .issue-actions .btn span {
+        display: inline !important;
+    }
 }
 
 /* Repository Images */
@@ -1227,62 +1299,66 @@ body.widget-fullscreen-active {
     color: var(--text-muted);
     font-size: 0.9rem;
     width: 100%;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     order: 1;
 }
 
 .pagination-info .pagination-left {
-    display: inline-block;
+    flex: 1;
+    margin-right: 1rem;
 }
 
 .pagination-info .pagination-right {
-    position: absolute;
-    right: 0;
-    top: 0;
+    flex-shrink: 0;
+    text-align: right;
 }
 
-/* Responsive pagination - allow wrapping in narrow containers */
-@container (max-width: 600px) {
+/* Show header fullscreen icon in narrow containers */
+@container (max-width: 768px) {
+    
     .pagination-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+        display: block;
+        position: relative;
     }
     
     .pagination-info .pagination-left {
-        width: 100%;
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: left;
     }
     
     .pagination-info .pagination-right {
         position: static;
-        align-self: flex-end;
-    }
-    
-    /* Show header fullscreen icon in narrow view */
-    .header-fullscreen-btn {
-        display: block !important;
+        display: block;
+        text-align: left;
     }
 }
-
-/* Media query fallback for browsers without container query support */
-@media (max-width: 600px) {
+.widget-fullscreen-active .header-fullscreen-btn {
+    display: none !important;
+}
+/* Media query fallback */
+@media (max-width: 768px) {
+    .header-fullscreen-btn {
+        display: none !important;
+    }
+    
     .pagination-info {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+        display: block;
+        position: relative;
     }
     
     .pagination-info .pagination-left {
-        width: 100%;
+        display: block;
+        margin-bottom: 0.5rem;
+        text-align: left;
     }
     
     .pagination-info .pagination-right {
         position: static;
-        align-self: flex-end;
-    }
-    
-    .header-fullscreen-btn {
-        display: block !important;
+        display: block;
+        text-align: left;
     }
 }
 
@@ -1713,7 +1789,8 @@ body.widget-fullscreen-active {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        flex: 1;
+        flex: none;
+        width: auto;
     }
     
     .card-view .issue-actions .btn span {
@@ -1804,7 +1881,8 @@ body.widget-fullscreen-active {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        flex: 1;
+        flex: none;
+        width: auto;
     }
     
     .card-view .issue-actions .btn span {
@@ -2000,8 +2078,9 @@ body.widget-fullscreen-active {
     }
     
     .search-group {
-        flex-direction: column;
+        flex-direction: row;
         gap: 0.5rem;
+        align-items: center;
     }
     
     .view-controls {
