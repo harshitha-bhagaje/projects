@@ -488,7 +488,7 @@ class GitHubIssuesManager {
             return parsed;
         } catch (error) {
             console.error('Error loading repositories from CSV:', error);
-            // Fallback to hardcoded list (updated with additional repositories)
+            // Fallback to hardcoded list
             return [
                 {repo_name: 'modelearth', display_name: 'ModelEarth', description: 'Main ModelEarth repository', default_branch: 'master'},
                 {repo_name: 'localsite', display_name: 'LocalSite', description: 'Core CSS/JS utilities', default_branch: 'main'},
@@ -500,30 +500,6 @@ class GitHubIssuesManager {
                 {repo_name: 'home', display_name: 'Home', description: 'Home page content', default_branch: 'main'},
                 {repo_name: 'cloud', display_name: 'Cloud', description: 'Cloud platform tools', default_branch: 'main'},
                 {repo_name: 'projects', display_name: 'Projects', description: 'Project showcases', default_branch: 'main'},
-                {repo_name: 'team', display_name: 'Team', description: 'Rust REST API for Azure', default_branch: 'main'},
-                {repo_name: 'MaterialScience', display_name: 'MaterialScience', description: 'MaterialScience webroot', default_branch: 'main'},
-                {repo_name: 'products', display_name: 'Products', description: 'Products frontend and python', default_branch: 'main'},
-                {repo_name: 'products-data', display_name: 'Products Data', description: 'Products data output', default_branch: 'main'},
-                {repo_name: 'profile', display_name: 'Profile', description: 'Profile frontend analysis', default_branch: 'main'},
-                {repo_name: 'exiobase', display_name: 'Exiobase', description: 'Trade flow output to .csv and SQL', default_branch: 'main'},
-                {repo_name: 'io', display_name: 'IO', description: 'Input-output analysis', default_branch: 'main'},
-                {repo_name: 'useeio.js', display_name: 'USEEIO.JS', description: 'JavaScript footprint tools', default_branch: 'dev'},
-                {repo_name: 'useeio-widgets', display_name: 'USEEIO Widgets', description: 'USEEIO React widgets', default_branch: 'master'},
-                {repo_name: 'useeio-widgets-without-react', display_name: 'USEEIO Widgets Without React', description: 'USEEIO widgets without React', default_branch: 'master'},
-                {repo_name: 'useeiopy', display_name: 'USEEIO Python', description: 'Python USEEIO library', default_branch: 'master'},
-                {repo_name: 'useeio_api', display_name: 'USEEIO API', description: 'USEEIO REST API', default_branch: 'master'},
-                {repo_name: 'useeio', display_name: 'USEEIO Core', description: 'Core USEEIO model', default_branch: 'master'},
-                {repo_name: 'useeior', display_name: 'USEEIO R', description: 'R package for USEEIO', default_branch: 'master'},
-                {repo_name: 'useeio-state', display_name: 'USEEIO State', description: 'State-level USEEIO data', default_branch: 'main'},
-                {repo_name: 'useeio-json', display_name: 'USEEIO JSON', description: 'USEEIO JSON data', default_branch: 'main'},
-                {repo_name: 'mario', display_name: 'Mario', description: 'Multi-regional input-output', default_branch: 'main'},
-                {repo_name: 'webroot', display_name: 'Webroot', description: 'PartnerTools webroot', default_branch: 'main'},
-                {repo_name: 'data-pipeline', display_name: 'Data Pipeline', description: 'Python data processing pipeline', default_branch: 'main'},
-                {repo_name: 'community-data', display_name: 'Community data', description: 'Community-level data outputs', default_branch: 'master'},
-                {repo_name: 'community-timelines', display_name: 'Community Timeline', description: 'Timeline data for communities', default_branch: 'main'},
-                {repo_name: 'community-zipcodes', display_name: 'Community Zipcodes', description: 'ZIP code level community data', default_branch: 'main'},
-                {repo_name: 'community-forecasting', display_name: 'Community Forecasting', description: 'Forecasting frontend', default_branch: 'main'},
-                {repo_name: 'dataflow', display_name: 'Data flow', description: 'Data flow NextJS UX', default_branch: 'main'},
             ];
         }
     }
