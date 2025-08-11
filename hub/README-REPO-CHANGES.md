@@ -16,7 +16,6 @@ The ModelEarth GitHub issues system has been expanded to include additional repo
 
 **Additional repositories added (23):**
 - team - Rust REST API for Azure
-- MaterialScience - MaterialScience webroot  
 - products - Products frontend and python
 - products-data - Products data output
 - profile - Profile frontend analysis

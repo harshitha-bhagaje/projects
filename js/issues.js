@@ -57,7 +57,7 @@ class GitHubIssuesManager {
         const config = {
             githubOwner: 'ModelEarth',
             detectCurrentFolder: true,
-            multiRepoRoots: ['webroot', 'PartnerTools', 'MaterialScience', 'modelearth']
+            multiRepoRoots: ['webroot', 'modelearth']
         };
 
         // Read from data attributes if container exists
@@ -501,7 +501,6 @@ class GitHubIssuesManager {
                 {repo_name: 'cloud', display_name: 'Cloud', description: 'Cloud platform tools', default_branch: 'main'},
                 {repo_name: 'projects', display_name: 'Projects', description: 'Project showcases', default_branch: 'main'},
                 {repo_name: 'team', display_name: 'Team', description: 'Rust REST API for Azure', default_branch: 'main'},
-                {repo_name: 'MaterialScience', display_name: 'MaterialScience', description: 'MaterialScience webroot', default_branch: 'main'},
                 {repo_name: 'products', display_name: 'Products', description: 'Products frontend and python', default_branch: 'main'},
                 {repo_name: 'products-data', display_name: 'Products Data', description: 'Products data output', default_branch: 'main'},
                 {repo_name: 'profile', display_name: 'Profile', description: 'Profile frontend analysis', default_branch: 'main'},
