@@ -134,7 +134,7 @@ class GitHubIssuesManager {
                 <i class="fas fa-expand header-fullscreen-btn" onclick="issuesManager.toggleFullscreen()" title="Toggle Fullscreen"></i>
                 
                 <div class="header-content">
-                    <h1><i class="fab fa-github"></i> ModelEarth Projects</h1>
+                    <h1 style="font-size:32px"><i class="fab fa-github"></i> Team Projects</h1>
                     <p class="subtitle">
                         <a href="#" id="toggleTokenSection" class="token-toggle-link" style="font-size: 0.9rem;">Add Your GitHub Token</a>
                         <span id="tokenBenefitText" style="font-size: 0.9rem;"> to increase API rate limits from 60 to 5,000 requests per hour</span>
