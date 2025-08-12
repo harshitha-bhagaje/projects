@@ -171,7 +171,7 @@ TO DO: Use our [cloud repo](https://github.com/ModelEarth/cloud/tree/main/run) a
 ## 4. International Trade Flow - SQL, Python, Javascript (IO)
 
 [International Trade Flow SQL Data Prep](/profile/trade) - Exiobase Colab, charts and SQL
-<!-- Contributors: Gary, Satya, Himanshu, Sahil, Poorna -->
+<!-- Contributors: Gary, Satya, Himanshu, Sahil, Poorna, Harshitha -->
 
 NEW: We're [configuring SuiteCRM](../profile/crm/) to run in an Azure instance.
 
